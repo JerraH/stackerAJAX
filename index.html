@@ -1,10 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Stack Overflow AJAX Demo</title>
 	<link rel="stylesheet" href="main.css">
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="mustache.js"></script>
 	<script src="app.js"></script>
 </head>
 <body>
@@ -33,7 +34,7 @@
 		</div>
 		<div class="results-container">
 			<div class="search-results"></div>
-			<div class="results">
+			<div class="results"></div>
 		</div>
 	</div>
 	<div class="templates hidden">
@@ -47,6 +48,19 @@
 			<dt>Asker</dt>
 				<dd class="asker"></dd>
 		</dl>
+		<div id="ansTemp">
+		{{#user}}
+		<dl class="result">
+		<div class='profile'><img src= {{profile_image}} ></div>
+			<h2 class='question-text'><a href={{link}}>{{display_name}}</a></h2>
+		<dt>Reputation</dt>
+				<dd class='asked-date'>{{reputation}}</dd>{{/user}}
+		<dt>Post Count</dt>
+				<dd class='viewed'>{{post_count}}</dd>
+			<dt>Score</dt>
+				<dd class='asker'>{{score}}</dd>
+		</dl>
+		</div>
 		<div class="error">
 			<p>Uh-oh! Something went wrong with your request. Here's what we know:</p>
 		</div>
