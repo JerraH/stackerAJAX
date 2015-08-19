@@ -6,7 +6,15 @@ $(document).ready( function() {
 		var tags = $(this).find("input[name='tags']").val();
 		getUnanswered(tags);
 	});
+
+	$('.inspiration-getter').submit( function(e){
+		$('.results').html('');
+		var answerers = $(this).find("input[name='answerers']").val();
+		getTop(answerers);
+	})
 });
+
+
 
 // this function takes the question object returned by StackOverflow 
 // and creates new result to be appended to DOM
@@ -49,6 +57,7 @@ var showSearchResults = function(query, resultNum) {
 	return results;
 };
 
+
 // takes error string and turns it into displayable DOM element
 var showError = function(error){
 	var errorElem = $('.templates .error').clone();
@@ -71,7 +80,8 @@ var getUnanswered = function(tags) {
 		data: request,
 		dataType: "jsonp",
 		type: "GET",
-		})
+		}
+)
 	.done(function(result){
 		var searchResults = showSearchResults(request.tagged, result.items.length);
 
@@ -86,6 +96,48 @@ var getUnanswered = function(tags) {
 		var errorElem = showError(error);
 		$('.search-results').append(errorElem);
 	});
+
+};
+
+var getTop = function(answerers) {
+	var ask = {
+		tag: answerers,
+		site: 'stackoverflow',
+
+	};
+	var tag = answerers,
+	period = 'all_time';
+
+	var askresult = $.ajax({
+		url: 'http://api.stackexchange.com/2.2/tags/' + tag + '/top-answerers/' + period + '?site=stackoverflow' ,
+		dataType: "jsonp",
+		type: "GET",
+	});
+	 askresult.done(function(askresult){
+	 	$('.search-results').html('');
+	 	var html = '';
+	 	console.log(askresult);
+
+	  $.each(askresult.items, function(i, item){
+	  	var template = $('#ansTemp').html();
+		html += Mustache.to_html(template, item);
+	  });
+	  $('.search-results').html(html);
+	  
+	 });
+
+	 askresult.fail(function(jqXHR, error, errorThrown){
+	 	errorElem = showError(error);
+	 	$('.search-results').append(errorElem);
+	 })
+	// .done(function(askresult){
+	// 	var searchResults = showSearchResults(ask.tags, askresult.items.length);
+	// 	console.log(searchResults);
+	// 	$('.search-results').html(searchResults);
+
+	// 	$.each(result.items, function(i, item) {
+	// 		return;
+	// 	});
 };
 
 

@@ -36,11 +36,30 @@
 
 .result {
 	border: 1px solid black;
-	padding: 5px;
-	margin: 0 auto 1em auto;
+	padding: 0 5% 2% 5%;
+	margin: 1em auto 0 auto;
+}
+
+.profile {
+	float: right;
+	position: relative;
+	display:inline-block;
+	margin-top:5%;
+	max-width:200px;
+	max-height:200px;
+}
+
+.question-text {
+	position:relative;
+	display:inline-block;
 }
 
 .error {
 	background-color: #F78181;
 	padding: 1em;
+}
+
+dt {
+	font-weight:bold;
+	margin-left:5%;
 }
